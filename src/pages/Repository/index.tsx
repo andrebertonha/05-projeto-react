@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import api from '../../services/api';
 import logoImg from '../../assets/logo.svg';
 import { Header, RepositoryInfo, Issues } from './styles';
 
@@ -10,11 +11,18 @@ interface RepositoryParams {
 
 const Repository: React.FC = () => {
   const { params } = useRouteMatch<RepositoryParams>();
+
+  useEffect(() => {
+    api.get(`repos/${params.repository}`).then((response) => {
+      console.log(response.data);
+    });
+  }, [params.repository]);
+
   return (
     <>
       <Header>
         <img src={logoImg} alt="Github Explorer"/>
-        <Link to="/">
+        <Link to="/repositories/andrebertonha/05-projeto-react">
           <FiChevronLeft size={16} />
           Voltar
         </Link>
